@@ -7,39 +7,57 @@
 #include <functional>
 #include <queue>
 #include <set>
+#define pb push_back
 using namespace std;
-vector<int>::iterator itt;
-map<int,int>mapsko;
-vector<int>v;
+
+int a,b,c;
+int sito[100001];
+
+vector<int>prim,divisors;
 
 int main()
 {
-    int l=1,k=0,a,b,od,odl;
-
-    for(int i=0 ; i<100000 ; ++i)
-    {
-        mapsko[l*l-k*k]=k;
-        v.push_back(k*k);
-        l++;k++;
-        
-    }
-
     scanf("%d%d",&a,&b);
-    if(b>a)swap(a,b);
-    sort(v.begin(),v.end());
-    if(a==b)
+    int div=2,cter,x,y,rem;
+    c=abs(a-b);
+    rem=c;
+    for(int i=2 ; i<10000 ; ++i)
     {
-        itt=upper_bound(v.begin(),v.end(),a);
-        odl=itt-v.begin()-1;
-        printf("%d",v[odl]-a);
-        return 0;
+        if(!sito[i])
+        {
+            prim.pb(i);
+        }
+        for(int u=i ; u<100000 ; u+=i)
+        {
+            sito[u]=1;
+        }
     }
-    if(mapsko[a-b]==0){printf("brak");return 0;}
-    od=mapsko[a-b];
-    a-=od;b-=od;
-    
-    printf("%d",od-b);
+    cter=1;
+    while(c>1)
+    {
+        while(c%div==0)
+        {
+            c/=div;
+            divisors.pb(div);
+        }
+        div=prim[cter];
+        cter++;
+    }
 
+    //if(divisors.size()==1){printf("brak");return 0;}
+
+    for(int i=0 ; i<divisors.size() ; ++i)
+    {
+        for(int u=0 ; u<divisors.size() ; ++u)
+        {
+            if(i==u)continue;
+
+            x=(divisors[i]+divisors[u])/2;
+            y=max(divisors[i],divisors[u])-x;
+            
+            if(x*x+b==y*y+a)printf("%d ",x*x+b);
+        }
+    }
 
 
     return 0;
