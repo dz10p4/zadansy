@@ -1,0 +1,7 @@
+Program WLN
+N:Byte;
+Var
+Begin
+        ReadLn(N);
+        WriteLn(N<100)
+End.
